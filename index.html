@@ -182,9 +182,9 @@
       <!-- 1. 캐릭터 종류 -->
       <div class="form-group">
         <label for="a1">1. 캐릭터 종류</label>
-        <select id="a1" onchange="handleSelectChange(this, 'a1_custom')">
-          <option value="귀여운 강아지">강아지</option>
-          <option value="귀여운 고양이">고양이</option>
+        <select id="a1" onchange="updateBreedOptions(); handleSelectChange(this, 'a1_custom');">
+          <option value="강아지">강아지</option>
+          <option value="고양이">고양이</option>
           <option value="귀여운 토끼">토끼</option>
           <option value="귀여운 곰">곰</option>
           <option value="귀여운 다람쥐">다람쥐</option>
@@ -196,6 +196,15 @@
           <option value="custom">직접 입력</option>
         </select>
         <input type="text" id="a1_custom" class="custom-input" placeholder="동물/캐릭터 직접 입력" oninput="generatePrompt()">
+      </div>
+
+      <!-- 1-1. 품종 선택 (강아지/고양이 선택 시 나타남) -->
+      <div class="form-group" id="a1_breed_group" style="display: none;">
+        <label for="a1_breed">1-1. 품종 선택</label>
+        <select id="a1_breed" onchange="handleSelectChange(this, 'a1_breed_custom')">
+          <!-- JS로 동적 생성 -->
+        </select>
+        <input type="text" id="a1_breed_custom" class="custom-input" placeholder="품종 직접 입력" oninput="generatePrompt()">
       </div>
 
       <!-- 2. 표현 방식 -->
@@ -211,6 +220,8 @@
       <div class="form-group" id="a3-group">
         <label for="a3">3. 직업</label>
         <select id="a3" onchange="updateClothesOptions(); handleSelectChange(this, 'a3_custom');">
+          <option value="가수">가수</option>
+          <option value="배우">배우</option>
           <option value="탐정">탐정</option>
           <option value="의사">의사</option>
           <option value="요리사">요리사</option>
@@ -240,6 +251,8 @@
           <option value="앙증맞게 앉아있는 포즈">앙증맞게 앉아있기</option>
           <option value="손을 흔들며 인사하는 포즈">손 흔들며 인사하기</option>
           <option value="음식을 맛있게 먹고 있는 포즈">음식 먹고 있기</option>
+          <option value="마이크를 잡고 열창하는 포즈">마이크 잡고 열창하기</option>
+          <option value="멋진 카리스마 넘치는 포즈">카리스마 넘치는 포즈</option>
           <option value="돋보기를 들고 탐색하는 포즈">돋보기로 조사하기</option>
           <option value="마법 지팡이를 휘두르는 포즈">마법 지팡이 휘두르기</option>
           <option value="신나게 뛰어오르는 포즈">신나게 뛰어오르기</option>
@@ -252,23 +265,23 @@
       <div class="form-group">
         <label for="a6">6. 그림 스타일</label>
         <select id="a6" onchange="generatePrompt()">
-        <option value="수채화 스타일">수채화</option>
-        <option value="유화 스타일">유화</option>
-        <option value="연필 에칭 스타일">연필 에칭</option>
-        <option value="시네마틱 스타일">시네마틱</option>
-        <option value="빈티지/레트로 스타일">빈티지/레트로</option>
-        <option value="흑백 스타일">흑백</option>
-        <option value="3D 애니메이션 스타일">3D 애니메이션</option>
-        <option value="귀여운 3D 토이 스타일">귀여운 3D 토이</option>
-        <option value="플랫 일러스트 스타일">플랫 일러스트</option>
-        <option value="손그림 감성 일러스트 스타일">손그림 감성 일러스트</option>
-        <option value="귀여운 만화 스타일">귀여운 만화 스타일</option>
-        <option value="한국 웹툰 스타일">한국 웹툰</option>
-        <option value="일본 애니메이션 스타일">일본 애니메이션</option>
+          <option value="수채화 스타일">수채화</option>
+          <option value="유화 스타일">유화</option>
+          <option value="연필 에칭 스타일">연필 에칭</option>
+          <option value="시네마틱 스타일">시네마틱</option>
+          <option value="빈티지/레트로 스타일">빈티지/레트로</option>
+          <option value="흑백 스타일">흑백</option>
+          <option value="3D 애니메이션 스타일">3D 애니메이션</option>
+          <option value="귀여운 3D 토이 스타일">귀여운 3D 토이</option>
+          <option value="플랫 일러스트 스타일">플랫 일러스트</option>
+          <option value="손그림 감성 일러스트 스타일">손그림 감성 일러스트</option>
+          <option value="귀여운 만화 스타일">귀여운 만화 스타일</option>
+          <option value="한국 웹툰 스타일">한국 웹툰</option>
+          <option value="일본 애니메이션 스타일">일본 애니메이션</option>
         </select>
       </div>
 
-      <!-- 7. 신체 비율 (영문 유지) -->
+      <!-- 7. 신체 비율 -->
       <div class="form-group">
         <label for="a7">7. 신체 비율</label>
         <select id="a7" onchange="generatePrompt()">
@@ -301,7 +314,6 @@
         </select>
       </div>
 
-      <!-- 3. 인상 및 분위기 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f3">3. 인상 및 분위기</label>
         <select id="f3" onchange="handleSelectChange(this, 'f3_custom')">
@@ -314,7 +326,6 @@
         <input type="text" id="f3_custom" class="custom-input" placeholder="인상/분위기 직접 입력" oninput="generatePrompt()">
       </div>
 
-      <!-- 4. 얼굴형 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f4">4. 얼굴형</label>
         <select id="f4" onchange="handleSelectChange(this, 'f4_custom')">
@@ -328,7 +339,6 @@
         <input type="text" id="f4_custom" class="custom-input" placeholder="얼굴형 직접 입력" oninput="generatePrompt()">
       </div>
 
-      <!-- 5. 눈 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f5">5. 눈</label>
         <select id="f5" onchange="handleSelectChange(this, 'f5_custom')">
@@ -340,7 +350,6 @@
         <input type="text" id="f5_custom" class="custom-input" placeholder="눈 모양 직접 입력" oninput="generatePrompt()">
       </div>
 
-      <!-- 6. 쌍꺼풀 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f6_1">6. 쌍꺼풀</label>
         <select id="f6_1" onchange="handleSelectChange(this, 'f6_1_custom')">
@@ -352,7 +361,6 @@
         <input type="text" id="f6_1_custom" class="custom-input" placeholder="쌍꺼풀 직접 입력" oninput="generatePrompt()">
       </div>
 
-      <!-- 6. 코 모양 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f6_2">6. 코 모양</label>
         <select id="f6_2" onchange="handleSelectChange(this, 'f6_2_custom')">
@@ -381,7 +389,6 @@
         </select>
       </div>
 
-      <!-- 9. 안경 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f9">9. 안경</label>
         <select id="f9" onchange="handleSelectChange(this, 'f9_custom')">
@@ -394,7 +401,6 @@
         <input type="text" id="f9_custom" class="custom-input" placeholder="안경 직접 입력" oninput="generatePrompt()">
       </div>
 
-      <!-- 10. 액세서리 (직접 입력 추가) -->
       <div class="form-group">
         <label for="f10">10. 액세서리</label>
         <select id="f10" onchange="handleSelectChange(this, 'f10_custom')">
@@ -529,6 +535,7 @@
       <label for="common_aspect">사진 방향</label>
       <select id="common_aspect" onchange="generatePrompt()">
         <option value="세로 방향 사진">세로 사진</option>
+        <option value="정사각형 사진">정사각형 사진</option>
         <option value="가로 방향 사진">가로 사진</option>
       </select>
     </div>
@@ -557,7 +564,38 @@
 </div>
 
 <script>
+  // 강아지 및 고양이 품종 데이터
+  const breedsByAnimal = {
+    "강아지": [
+      { text: "푸들 (Poodle)", val: "귀여운 푸들 강아지" },
+      { text: "골든 리트리버 (Golden Retriever)", val: "귀여운 골든 리트리버 강아지" },
+      { text: "시바견 (Shiba Inu)", val: "귀여운 시바견 강아지" },
+      { text: "말티즈 (Maltese)", val: "귀여운 말티즈 강아지" },
+      { text: "포메라니안 (Pomeranian)", val: "귀여운 포메라니안 강아지" },
+      { text: "비숑 프리제 (Bichon Frise)", val: "귀여운 비숑 프리제 강아지" }
+    ],
+    "고양이": [
+      { text: "코리안 쇼트헤어 (Korean Short-hair)", val: "귀여운 코리안 쇼트헤어 고양이" },
+      { text: "페르시안 (Persian)", val: "귀여운 페르시안 고양이" },
+      { text: "샴 (Siamese)", val: "귀여운 샴 고양이" },
+      { text: "렉돌 (Ragdoll)", val: "귀여운 렉돌 고양이" },
+      { text: "스코티시 폴드 (Scottish Fold)", val: "귀여운 스코티시 폴드 고양이" },
+      { text: "먼치킨 (Munchkin)", val: "귀여운 먼치킨 고양이" }
+    ]
+  };
+
+  // 직업별 의상 데이터 (가수, 배우 추가)
   const clothesByJob = {
+    "가수": [
+      { text: "화려한 무대 의상과 마이크", val: "화려한 무대 의상과 마이크" },
+      { text: "스팽글 자켓과 화려한 무대 룩", val: "스팽글 자켓과 화려한 무대 룩" },
+      { text: "스트릿 댄스 / 힙합 스타일 의상", val: "스트릿 댄스 힙합 스타일 의상" }
+    ],
+    "배우": [
+      { text: "시상식 턱시도 / 드레스", val: "시상식 턱시도와 우아한 드레스" },
+      { text: "클래식 롱 코트와 스카프", val: "클래식 롱 코트와 스카프" },
+      { text: "세련된 스마트 캐주얼 룩", val: "세련된 스마트 캐주얼 룩" }
+    ],
     "탐정": [
       { text: "클래식한 탐정 트렌치코트와 사냥모자", val: "클래식한 탐정 트렌치코트와 사냥모자" },
       { text: "체크무늬 자켓과 베스트", val: "체크무늬 자켓과 베스트" },
@@ -610,6 +648,37 @@
     ]
   };
 
+  // 품종 Dropdown 동적 업데이트 함수
+  function updateBreedOptions() {
+    const animalVal = document.getElementById("a1").value;
+    const breedGroup = document.getElementById("a1_breed_group");
+    const breedSelect = document.getElementById("a1_breed");
+
+    if (animalVal === "강아지" || animalVal === "고양이") {
+      breedGroup.style.display = "flex";
+      breedSelect.innerHTML = "";
+
+      const list = breedsByAnimal[animalVal];
+      list.forEach(opt => {
+        const el = document.createElement("option");
+        el.value = opt.val;
+        el.textContent = opt.text;
+        breedSelect.appendChild(el);
+      });
+
+      const customOpt = document.createElement("option");
+      customOpt.value = "custom";
+      customOpt.textContent = "직접 입력";
+      breedSelect.appendChild(customOpt);
+
+      handleSelectChange(breedSelect, "a1_breed_custom");
+    } else {
+      breedGroup.style.display = "none";
+      document.getElementById("a1_breed_custom").style.display = "none";
+      generatePrompt();
+    }
+  }
+
   function updateClothesOptions() {
     const jobVal = getValue("a3", "a3_custom");
     const clothesSelect = document.getElementById("a4");
@@ -648,6 +717,7 @@
       document.body.classList.add("theme-animal");
       humanSec.style.display = "none";
       animalSec.style.display = "grid";
+      updateBreedOptions();
       toggleAnthropomorphic();
     }
   }
@@ -710,7 +780,12 @@
     let parts = [];
 
     if (charType === "animal") {
-      parts.push(getValue("a1", "a1_custom"));
+      const animalType = document.getElementById("a1").value;
+      if (animalType === "강아지" || animalType === "고양이") {
+        parts.push(getValue("a1_breed", "a1_breed_custom"));
+      } else {
+        parts.push(getValue("a1", "a1_custom"));
+      }
       
       const isAnthro = document.getElementById("a2").value === "anthropomorphic";
       if (isAnthro) {
